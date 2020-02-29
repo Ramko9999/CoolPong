@@ -1,28 +1,33 @@
 import pygame
 from paddle import Paddle
-
-
+from constants import *
+from ball import Ball
 
 
 class Color:
-    white = (255,255,255)
+
+    WHITE = (255,255,255)
+    BLACK = (0,0,0)
 
 class Pong:
 
-    HEIGHT = 480
-    WIDTH = 640
-    PAD_HEIGHT = 80
-    PAD_WIDTH = 30
-
     def __init__(self):
         pygame.init()
-        self.screen  = pygame.display.set_mode((Pong.WIDTH,Pong.HEIGHT))
+        self.screen  = pygame.display.set_mode((GAME_WIDTH,GAME_HEIGHT))
         self.game_state = True
-        self.paddles = [Paddle(5,Pong.HEIGHT/2, Pong.PAD_WIDTH,Pong.PAD_HEIGHT, "CAM"),
-                        Paddle(Pong.WIDTH - 80,Pong.HEIGHT/2, Pong.PAD_WIDTH,Pong.PAD_HEIGHT, "AI")]
+        self.paddles = [Paddle(5,GAME_HEIGHT/2, PAD_WIDTH,PAD_HEIGHT, "CAM"),
+                        Paddle(GAME_WIDTH - 80,GAME_HEIGHT/2, PAD_WIDTH,PAD_HEIGHT, "AI")]
+        self.ball = Ball()
 
     def update(self):
+        self.screen.fill(Color.BLACK)
         for paddle in self.paddles:
-            pygame.draw.rect(self.screen, Color.white, paddle.geometry())
-        pygame.display.update()
+            if paddle.key == "CAM":
+                pass
+            pygame.draw.rect(self.screen, Color.WHITE, paddle.geometry())
+            self.ball.collision_check(paddle)
+        self.ball.move()
+        pygame.draw.circle(self.screen, Color.WHITE, self.ball.get_position(), Ball.RADIUS)
+        pygame.display.flip()
+
 
