@@ -16,7 +16,7 @@ class Pong:
         self.screen  = pygame.display.set_mode((GAME_WIDTH,GAME_HEIGHT))
         self.game_state = True
         self.paddles = [Paddle(5,GAME_HEIGHT/2, PAD_WIDTH,PAD_HEIGHT, "CAM"),
-                        Paddle(GAME_WIDTH - 80,GAME_HEIGHT/2, PAD_WIDTH,PAD_HEIGHT, "AI")]
+                        Paddle(GAME_WIDTH - 5 - PAD_WIDTH,GAME_HEIGHT/2, PAD_WIDTH,PAD_HEIGHT, "AI")]
         self.ball = Ball()
 
     def update(self):
@@ -25,8 +25,7 @@ class Pong:
             if paddle.key == "CAM":
                 pass
             pygame.draw.rect(self.screen, Color.WHITE, paddle.geometry())
-            self.ball.collision_check(paddle)
-        self.ball.move()
+        self.ball.move(self.paddles)
         pygame.draw.circle(self.screen, Color.WHITE, self.ball.get_position(), Ball.RADIUS)
         pygame.display.flip()
 

@@ -21,7 +21,8 @@ def main():
     vid = cv2.VideoCapture(0)
     hand = Hand()
     game = Pong()
-    cam_paddle = game.paddles[0]
+    cam_paddle = game.paddles[1]
+    ai_paddle = game.paddles[0]
     SCALE = GAME_HEIGHT/(MAX_REACH - MIN_REACH)
 
     # variables used to figure out the static background for background subtraction
@@ -33,6 +34,12 @@ def main():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_UP:
+                    ai_paddle.move_up(15)
+                if event.key == pygame.K_DOWN:
+                    ai_paddle.move_down(15)
+
         ret, frame = vid.read()
         grey_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
@@ -69,6 +76,7 @@ def main():
                 new_pos = compute_center(hull)
                 new_pos[1] = math.floor((new_pos[1] - MIN_REACH) * SCALE)
                 cam_paddle.set_position(new_pos)
+                ai_paddle.set_position(new_pos)
                 cv2.line(frame, tuple(hand.center_pos), tuple(new_pos), (0,255,0), 5)
                 hand.set_hull(hull)
 
@@ -84,4 +92,5 @@ def main():
 
     vid.release()
     vid.destroyAllWindows()
+
 main()

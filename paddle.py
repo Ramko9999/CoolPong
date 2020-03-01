@@ -23,6 +23,12 @@ class Paddle:
             if abs(y - self.y) > Paddle.Y_THRESHOLD:
                 self.y = y
 
+    def move_up(self, dy):
+        self.y = max(0, self.y - dy)
+
+    def move_down(self, dy):
+        self.y = min(GAME_HEIGHT - self.h, self.y + dy)
+
     def set_height(self, h):
         self.h = h
 

@@ -17,9 +17,8 @@ class Hand:
     def get_movement(self, new_pos):
         return abs(new_pos[1] - self.center_pos[1])
 
-
 def compute_center(L):
-    pos  = [0,0]
+    pos = [0,0]
     for point in L:
         p = point[0]
         pos[0] += p[0]
