@@ -12,7 +12,9 @@ class Hand:
 
     def set_hull(self, hull):
         self.hull = hull
-        self.center_pos = compute_center(self.hull)
+
+    def set_center(self, center):
+        self.center_pos = center
 
     def get_movement(self, new_pos):
         return abs(new_pos[1] - self.center_pos[1])
